@@ -1,6 +1,7 @@
 import (
 	"os"
 	"bytes"
+	"regexp"
 	"path/filepath"
 )
 id "pnggroup/libpng"
