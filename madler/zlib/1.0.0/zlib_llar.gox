@@ -10,7 +10,7 @@ id "madler/zlib"
 fromVer "1.0.0"
 
 onBuild (proj, out) => {
-	buildDir := filepath.join(proj.Dir, "build")
+	buildDir := filepath.join(proj.BuildDir, "build")
 	mkdir buildDir
 
 	exec "./configure", "--prefix", buildDir

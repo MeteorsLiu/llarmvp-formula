@@ -14,11 +14,11 @@ onRequire (proj, dep) => {
 }
 
 onBuild (proj, out) => {
-	buildDir := filepath.join(proj.Dir, "build")
+	buildDir := filepath.join(proj.BuildDir, "build")
 	mkdir buildDir
 
 	for dep in proj.Deps {
-		proj.use dep
+		use dep, proj.Matrix
 		echo "use ${dep.ID} ${dep.Version}"
 	}
 
