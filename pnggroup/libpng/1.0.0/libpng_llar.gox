@@ -21,12 +21,9 @@ onBuild (proj, out) => {
 		echo "use ${dep.ID} ${dep.Version}"
 	}
 
-	capout => {
-		exec "./configure", "--prefix", buildDir
-		exec "make"
-		exec "make", "install"
-	}
-	echo output
+	exec "./configure", "--prefix", buildDir
+	exec "make"
+	exec "make", "install"
 
 	if lastErr != nil {
 		return lastErr
