@@ -47,7 +47,7 @@ onBuild (proj, out) => {
 			newContent := re.replaceAll(pcContent, []byte("prefix=${proj.FormulaDir}"))
 
 			if !bytes.equal(newContent, pcContent) {
-				os.writeFile(pcFile, pcContent, 0755)
+				os.writeFile(pcFile, newContent, 0755)
 			}
 		}
 	}
