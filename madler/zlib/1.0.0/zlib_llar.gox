@@ -28,7 +28,7 @@ onBuild (proj, out) => {
 	for pcFile in pcFiles {
 		pcContent, err := os.readFile(pcFile)
 		if err == nil {
-			newContent := re.replaceAll(pcContent, []byte("prefix={{.FormulaBuildDir}}"))
+			newContent := re.replaceAll(pcContent, []byte("prefix=${proj.FormulaDir}"))
 
 			if !bytes.equal(newContent, pcContent) {
 				os.writeFile("${pcFile}.tmpl", pcContent, 0755)

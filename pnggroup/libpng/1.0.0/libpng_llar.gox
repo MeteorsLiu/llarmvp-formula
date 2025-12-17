@@ -21,6 +21,11 @@ onBuild (proj, out) => {
 		echo "use ${dep.ID} ${dep.Version}"
 	}
 
+	capout => {
+		exec "pkg-config", "--libs", "zlib"
+	}
+	echo output
+
 	exec "./configure", "--prefix", buildDir
 	exec "make"
 	exec "make", "install"
@@ -38,7 +43,7 @@ onBuild (proj, out) => {
 	for pcFile in pcFiles {
 		pcContent, err := os.readFile(pcFile)
 		if err == nil {
-			newContent := re.replaceAll(pcContent, []byte("prefix={{.FormulaBuildDir}}"))
+			newContent := re.replaceAll(pcContent, []byte("prefix=${proj.FormulaDir}"))
 
 			if !bytes.equal(newContent, pcContent) {
 				os.writeFile("${pcFile}.tmpl", pcContent, 0755)
