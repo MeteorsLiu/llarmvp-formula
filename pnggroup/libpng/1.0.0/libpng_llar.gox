@@ -18,5 +18,5 @@ onBuild (ctx, proj, out) => {
 	a.install
 
 	out.Err = lastErr
-	out.Dir = a.OutputDir
+	out.Dir = a.outputDir
 }
