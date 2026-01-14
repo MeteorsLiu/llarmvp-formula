@@ -1,9 +1,3 @@
-import (
-	"os"
-	"bytes"
-	"regexp"
-	"path/filepath"
-)
 id "pnggroup/libpng"
 
 fromVer "1.0.0"
@@ -13,46 +7,16 @@ onRequire (proj, dep) => {
 	dep.require "madler/zlib", "1.2.11"
 }
 
-onBuild (proj, out) => {
-	buildDir := filepath.join(proj.BuildDir, "build")
-	mkdir buildDir
+onBuild (ctx, proj, out) => {
+	a := autotools.new(ctx)
 
 	for dep in proj.Deps {
-		use dep, proj.Matrix
-		echo "use ${dep.ID} ${dep.Version}"
+		a.use dep
 	}
+	a.configure
+	a.build
+	a.install
 
-	capout => {
-		exec "pkg-config", "--libs", "zlib"
-	}
-	echo output
-
-	exec "./configure", "--prefix", buildDir
-	exec "make"
-	exec "make", "install"
-
-	if lastErr != nil {
-		return lastErr
-	}
-
-	echo buildDir
-
-	pcFiles, _ := filepath.glob(filepath.join(buildDir, "lib", "pkgconfig", "*.pc"))
-
-	re := regexp.mustCompile("^prefix=(.*)")
-
-	for pcFile in pcFiles {
-		pcContent, err := os.readFile(pcFile)
-		if err == nil {
-			newContent := re.replaceAll(pcContent, []byte("prefix=${proj.FormulaDir}"))
-
-			if !bytes.equal(newContent, pcContent) {
-				os.writeFile(pcFile, newContent, 0755)
-			}
-		}
-	}
-
-	out.OutputDir = buildDir
-
-	return nil
+	out.Err = lastErr
+	out.Dir = a.OutputDir
 }
