@@ -1,0 +1,11 @@
+id "towner/testlib"
+
+fromVer "1.0.0"
+
+onRequire (proj, deps) => {
+	deps.require "towner/testdep", "1.0.0"
+}
+
+onBuild (ctx, proj, out) => {
+	echo "building testlib"
+}
