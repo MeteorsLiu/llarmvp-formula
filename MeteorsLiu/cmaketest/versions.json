@@ -1,0 +1,8 @@
+{
+	"path": "MeteorsLiu/cmaketest",
+	"deps": {
+		"1.0.0": [
+			{"path": "towner/testdep", "version": "1.0.0"}
+		]
+	}
+}
