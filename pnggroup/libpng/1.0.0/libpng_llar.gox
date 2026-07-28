@@ -7,16 +7,16 @@ onRequire (proj, dep) => {
 	dep.require "madler/zlib", "1.2.11"
 }
 
-onBuild ctx => {
-	installDir := ctx.outputDir
+onBuild (ctx, proj, out) => {
+	a := autotools.new(ctx)
 
-	a := autotools.new(ctx.SourceDir, ctx.SourceDir+"/_build", installDir)
-
-	for _, dep := range ctx.Proj.Deps {
-		depDir := ctx.outputDir(dep)
-		a.use depDir
+	for dep in proj.Deps {
+		a.use dep
 	}
 	a.configure
 	a.build
 	a.install
+
+	out.Err = lastErr
+	out.Dir = a.outputDir
 }
